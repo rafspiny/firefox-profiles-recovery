@@ -114,12 +114,12 @@ Default=1
             logic.profile_crawler.ProfileSearcher(ini_path=path, profile_dir=profile_folder)
 
     @data(
-        ('/profiles/profiles.ini', '/profiles/', ['s6zuh3tz.default'], set()),
-        ('/profiles/profiles.ini', '/profiles/', ['s6zuh3TZ.default'], {'s6zuh3TZ.default'}),
-        ('/profiles/profiles.ini', '/profiles/', ['s6zuh3tz.default', 's6zuh3TZ.default'], {'s6zuh3TZ.default'}),
-        ('/profiles/profiles.ini', '/profiles/', [], set()),
+        ('/profiles/profiles.ini', '/profiles/', ['s6zuh3tz.default'], []),
+        ('/profiles/profiles.ini', '/profiles/', ['s6zuh3TZ.default'], ['s6zuh3TZ.default']),
+        ('/profiles/profiles.ini', '/profiles/', ['s6zuh3tz.default', 's6zuh3TZ.default'], ['s6zuh3TZ.default']),
+        ('/profiles/profiles.ini', '/profiles/', [], []),
         ('/profiles/profiles.ini', '/profiles/', ['s6zuh3tz.default', '2h2h4h.mr_x', '12k4k8.doctor_who'],
-         {'12k4k8.doctor_who', '2h2h4h.mr_x'})
+         ['2h2h4h.mr_x', '12k4k8.doctor_who'])
     )
     @unpack
     def test_compare_profiles(self, path, profile_folder, profiles_to_create, list_of_recoverables):
@@ -141,4 +141,32 @@ Default=1
 
         crawler = logic.profile_crawler.ProfileSearcher(ini_path=path, profile_dir=profile_folder)
         crawler.compute_recoverable()
-        self.assertEqual(list_of_recoverables, crawler.recoverable)
+        self.assertEqual(sorted(list_of_recoverables), sorted([current_profile.name for current_profile in crawler.recoverable_profiles]))
+
+
+    @data(
+        ('/profiles/profiles.ini', '/profiles/', ["""
+[Profile0]
+Name=default
+IsRelative=1
+Path=s6zuh3tz.default
+Default=1
+"""]),
+    )
+    @unpack
+    def test_load_from_fs(self, path, profile_folder, stringified_profile):
+        """
+        Test that the list of recoverable profiles is computed correctly
+        :param path: The path for the profiles.ini file
+        :param profile_folder: The profile direcotry in Firefox
+        :return:
+        """
+        if path is not None:
+            path = '%s%s' % (CrawlerTestCase.basedir, path)
+        if profile_folder is not None:
+            profile_folder = '%s%s' % (CrawlerTestCase.basedir, profile_folder)
+
+        crawler = logic.profile_crawler.ProfileSearcher(ini_path=path, profile_dir=profile_folder)
+        crawler.compute_recoverable()
+        print(crawler.present_in_profile_file)
+        self.assertEqual(stringified_profile, [current_profile.stringify() for current_profile in crawler.present_in_profile_file.values()])

@@ -10,7 +10,7 @@ class Profile:
         self.isRelative = isRelative
         self.path = path
         self.isDefault = isDefault
-        self.id = profile_id
+        self.id = int(profile_id)
 
     def load(self, **kwargs):
         for key in Profile.available_keys:
@@ -22,7 +22,7 @@ class Profile:
 
     def stringify(self, override_id=None):
         if override_id is None:
-            override_id = self.id
+            override_id = int(self.id)
         return """
 [Profile%d]
 Name=%s

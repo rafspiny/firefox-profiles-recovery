@@ -11,9 +11,9 @@ class ProfileSearcher():
 
     def __init__(self, ini_path=None, profile_dir=None):
         # TODO maybe I should set ini_path and profile_dir to their respective linux, mac and windows value
+        self.recoverable_profiles = {}
         self.present_on_fs = {}
         self.present_in_profile_file = {}
-        self.recoverable = {}
         self.inspect_profile(ini_path=ini_path)
         self.inspect_fs(profile_dir=profile_dir)
 
@@ -84,7 +84,8 @@ class ProfileSearcher():
         Compute the differences between the profiles from the fs and the one listed in the profiles.ini file
         :return:
         """
-        self.recoverable = set(self.present_on_fs) - set(self.present_in_profile_file)
+        recoverable = set(self.present_on_fs) - set(self.present_in_profile_file)
+        self.recoverable_profiles = [model.models.Profile(profile_id=1, path=path, name=path) for path in recoverable]
 
     def print(self):
         print("From profiles: ")
@@ -94,5 +95,5 @@ class ProfileSearcher():
         for x in self.present_on_fs:
             print("Profile: %s" % x)
         print("Recoverable: ")
-        for x in self.recoverable:
-            print("Profile: %s" % x)
+        for x in self.recoverable_profiles:
+            print("Profile: %s" % x.name)
