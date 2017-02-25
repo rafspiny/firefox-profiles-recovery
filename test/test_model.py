@@ -13,6 +13,14 @@ class ModelTestCase(unittest.TestCase):
         self.assertEqual(None, self.profile.name, 'Name is not None')
         self.assertEqual(None, self.profile.path, 'Path is not None')
 
+    def test_default_constructor_extract_name(self):
+        self.profile = model.models.Profile(path='72yh7.firefox_profile')
+        self.assertEqual(-1, self.profile.id, 'mismatched id')
+        self.assertEqual(False, self.profile.isDefault, 'The profile is set to be default')
+        self.assertEqual(False, self.profile.isRelative, 'The profile is set to be relative')
+        self.assertEqual('firefox_profile', self.profile.name, 'Name is not None')
+        self.assertEqual('72yh7.firefox_profile', self.profile.path, 'Path is not None')
+
     def test_profile_stringify(self):
         stringify = self.profile.stringify()
         self.assertMultiLineEqual("""
