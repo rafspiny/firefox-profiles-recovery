@@ -95,6 +95,7 @@ Default=1
         (None, None, 'No profiles.ini path has been specified'),
         ("/profiles.ini", None, 'File .*/profiles.ini do not exists'),
         ("/profiles/profiles.ini", None, 'No previous list of profiles specified'),
+        ("/profiles/profiles.ini", [{'id': 5}], 'List of profiles has invalid objects'),
     )
     @unpack
     def test_default_constructor_param(self, path, profiles, exception_message):
@@ -112,7 +113,7 @@ Default=1
 
     @data(
         ("/profiles/profiles.ini", [], 0),
-        ("/profiles/profiles.ini", [{'id': 5}], 6),
+        ("/profiles/profiles.ini", [{'profile_id': 5}], 6),
     )
     @unpack
     def test_default_constructor_good_param(self, path, list_profiles, expected_id):
@@ -125,7 +126,10 @@ Default=1
         if path is not None:
             path = '%s%s' % (GeneratorTestCase.basedir, path)
 
-        generator = logic.profile_generator.ProfileGenerator(ini_path=path, profiles=list_profiles)
+        # convert dict to profile
+        list_of_profiles_objs = [model.models.Profile(**profile_dict) for profile_dict in list_profiles]
+
+        generator = logic.profile_generator.ProfileGenerator(ini_path=path, profiles=list_of_profiles_objs)
         self.assertEqual(generator.new_id, expected_id)
 
     @data(
@@ -144,7 +148,7 @@ Default=1
             generator.add_profile(profile)
 
     @data(
-        ('/profiles/profiles.ini', [{'id':0}], [{'name':'profile', 'isRelative':True, 'isDefault':False, 'path':'profile.profile', 'profile_id':-1}], """
+        ('/profiles/profiles.ini', [{'profile_id':0}], [{'name':'profile', 'isRelative':True, 'isDefault':False, 'path':'profile.profile', 'profile_id':-1}], """
 [General]
 StartWithLastProfile=1
 
@@ -176,7 +180,10 @@ Default=0
         if path is not None:
             path = '%s%s' % (GeneratorTestCase.basedir, path)
 
-        generator = logic.profile_generator.ProfileGenerator(ini_path=path, profiles=existing_profiles)
+        # convert dict to profile
+        list_of_profiles_objs = [model.models.Profile(**profile_dict) for profile_dict in existing_profiles]
+
+        generator = logic.profile_generator.ProfileGenerator(ini_path=path, profiles=list_of_profiles_objs)
         for profile in profiles_to_add:
             generator.add_profile(model.models.Profile(**profile))
 

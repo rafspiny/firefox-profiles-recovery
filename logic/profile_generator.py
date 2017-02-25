@@ -17,13 +17,16 @@ class ProfileGenerator:
 
         if profiles is None:
             raise Exception('No previous list of profiles specified')
+        check_list = [profile for profile in profiles if not isinstance(profile, model.models.Profile)]
+        if len(check_list) > 0:
+            raise Exception('List of profiles has invalid objects')
 
         self.ini_path = ini_path
         self.present_in_profile_file = []
         # It is not enough to do self.new_id = len(profiles)
         current_id = -1
         for profile in profiles:
-            current_id = profile['id']
+            current_id = profile.__getattribute__('id')
         self.new_id = current_id + 1
 
     def add_profile(self, profile):
