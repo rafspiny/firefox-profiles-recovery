@@ -4,7 +4,7 @@ import re
 import model.models
 
 
-class ProfileSearcher():
+class ProfileSearcher:
     """
     Look for profiles
     """
@@ -85,7 +85,7 @@ class ProfileSearcher():
         :return:
         """
         recoverable = set(self.present_on_fs) - set(self.present_in_profile_file)
-        self.recoverable_profiles = [model.models.Profile(profile_id=1, path=path, name=path) for path in recoverable]
+        self.recoverable_profiles = [model.models.Profile(path=path) for path in recoverable]
 
     def print(self):
         print("From profiles: ")

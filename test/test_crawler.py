@@ -115,11 +115,11 @@ Default=1
 
     @data(
         ('/profiles/profiles.ini', '/profiles/', ['s6zuh3tz.default'], []),
-        ('/profiles/profiles.ini', '/profiles/', ['s6zuh3TZ.default'], ['s6zuh3TZ.default']),
-        ('/profiles/profiles.ini', '/profiles/', ['s6zuh3tz.default', 's6zuh3TZ.default'], ['s6zuh3TZ.default']),
+        ('/profiles/profiles.ini', '/profiles/', ['s6zuh3TZ.default'], ['default']),
+        ('/profiles/profiles.ini', '/profiles/', ['s6zuh3tz.default', 's6zuh3TZ.default'], ['default']),
         ('/profiles/profiles.ini', '/profiles/', [], []),
         ('/profiles/profiles.ini', '/profiles/', ['s6zuh3tz.default', '2h2h4h.mr_x', '12k4k8.doctor_who'],
-         ['2h2h4h.mr_x', '12k4k8.doctor_who'])
+         ['mr_x', 'doctor_who'])
     )
     @unpack
     def test_compare_profiles(self, path, profile_folder, profiles_to_create, list_of_recoverables):
@@ -170,3 +170,25 @@ Default=1
         crawler.compute_recoverable()
         print(crawler.present_in_profile_file)
         self.assertEqual(stringified_profile, [current_profile.stringify() for current_profile in crawler.present_in_profile_file.values()])
+
+    @data(
+        ('/profiles/profiles.ini', '/profiles/', 1),
+    )
+    @unpack
+    def test_load_from_ini_file(self, path, profile_folder, numer_of_profiles):
+        """
+        Test that the list of profiles in the ini loads correctly
+        :param path: The path for the profiles.ini file
+        :param profile_folder: The profile directory in Firefox
+        :param numer_of_profiles: the expected number of profiles
+        :return:
+        """
+        if path is not None:
+            path = '%s%s' % (CrawlerTestCase.basedir, path)
+        if profile_folder is not None:
+            profile_folder = '%s%s' % (CrawlerTestCase.basedir, profile_folder)
+
+        crawler = logic.profile_crawler.ProfileSearcher(ini_path=path, profile_dir=profile_folder)
+        crawler.compute_recoverable()
+        print(crawler.present_in_profile_file)
+        self.assertEqual(numer_of_profiles, len(crawler.present_in_profile_file.values()))
