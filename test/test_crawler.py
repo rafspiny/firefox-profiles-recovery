@@ -168,7 +168,6 @@ Default=1
 
         crawler = logic.profile_crawler.ProfileSearcher(ini_path=path, profile_dir=profile_folder)
         crawler.compute_recoverable()
-        print(crawler.present_in_profile_file)
         self.assertEqual(stringified_profile, [current_profile.stringify() for current_profile in crawler.present_in_profile_file.values()])
 
     @data(
@@ -190,5 +189,4 @@ Default=1
 
         crawler = logic.profile_crawler.ProfileSearcher(ini_path=path, profile_dir=profile_folder)
         crawler.compute_recoverable()
-        print(crawler.present_in_profile_file)
         self.assertEqual(numer_of_profiles, len(crawler.present_in_profile_file.values()))
