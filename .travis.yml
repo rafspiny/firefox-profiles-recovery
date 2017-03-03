@@ -1,9 +1,8 @@
 language: python
 before_install:
-    - pip install coveralls
-    - pip install coverage
+    - pip install coveralls coverage
+    - cd firefox-profiles-recovery
 script:
-    - python -m unittest
     - coverage run -m unittest
 after_success:
     - coveralls
