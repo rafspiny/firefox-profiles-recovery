@@ -3,6 +3,6 @@ python:
     - "3.4"
 install: "pip install -r requirements.txt"
 script:
-    - coverage run --omit "*init*.py,test/*" -m unittest
+    - coverage run --omit "*init*.py,test/*,*/.local/lib64/*,*/.local/lib/*" -m unittest
 after_success:
     - coveralls
