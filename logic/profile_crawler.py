@@ -87,14 +87,3 @@ class ProfileSearcher:
         """
         recoverable = set(self.present_on_fs) - set(self.present_in_profile_file)
         self.recoverable_profiles = [model.models.Profile(path=path) for path in recoverable]
-
-    def print(self):
-        print("From profiles: ")
-        for x in self.present_in_profile_file:
-            print("Profile: %s" % x)
-        print("From fs: ")
-        for x in self.present_on_fs:
-            print("Profile: %s" % x)
-        print("Recoverable: ")
-        for x in self.recoverable_profiles:
-            print("Profile: %s" % x.name)
