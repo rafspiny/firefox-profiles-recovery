@@ -1,3 +1,6 @@
+branches:
+  only:
+    - development
 language: python
 before_install:
     - pip install coveralls coverage
