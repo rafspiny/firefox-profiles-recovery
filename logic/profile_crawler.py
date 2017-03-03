@@ -27,8 +27,9 @@ class ProfileSearcher:
 
         if not fs.exists(ini_path):
             raise Exception("File %s do not exists" % (ini_path))
-
-        lines = [line.strip() for line in open(ini_path, 'r')]
+        fd = open(ini_path, 'r')
+        lines = [line.strip() for line in fd]
+        fd.close()
         current_profile = None
         for line in lines:
             match = re.search("^\[Profile(\d+)\]$", line)
