@@ -5,7 +5,7 @@ python:
 install: "pip install -r requirements.txt"
 script:
     - coverage run --omit "*init*.py,test/*,*/.local/lib64/*,*/.local/lib/*,*/site-packages/*" -m unittest
-    - sonar-scanner -X
+    - sonar-scanner -X --stacktrace --debug 
 after_success:
     - coveralls
 addons:
