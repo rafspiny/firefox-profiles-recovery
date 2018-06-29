@@ -10,7 +10,7 @@ before_script:
     - ./cc-test-reporter before-build
 script:
     - coverage run --omit "*init*.py,test/*,*/.local/lib64/*,*/.local/lib/*,*/site-packages/*" -m unittest
-    - sonar-scanner -X
+    - sonar-scanner
 after_success:
     - coveralls
 addons:
