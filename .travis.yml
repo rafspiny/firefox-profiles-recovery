@@ -1,8 +1,21 @@
 language: python
+dist: trusty
 python:
     - "3.4"
 install: "pip install -r requirements.txt"
+before_script:
+    # Download code climate tools
+    - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+    - chmod +x ./cc-test-reporter
+    - ./cc-test-reporter before-build
 script:
     - coverage run --omit "*init*.py,test/*,*/.local/lib64/*,*/.local/lib/*,*/site-packages/*" -m unittest
+    - sonar-scanner
 after_success:
     - coveralls
+addons:
+    sonarcloud:
+        organization: "rafspiny-github" # the key of the org you chose at step #3
+after_script:
+  #- codeclimate-test-reporter < coverage/lcov.info
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT

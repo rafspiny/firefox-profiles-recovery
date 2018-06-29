@@ -27,16 +27,29 @@ class ProfileSearcher:
 
         if not fs.exists(ini_path):
             raise Exception("File %s do not exists" % (ini_path))
+
+        current_profile = self.__parse_profile_file__(ini_path)
+
+        # finished reading lines, check the last profile
+        self.__save_recovered_profile__(current_profile)
+
+    def __parse_profile_file__(self, ini_path):
+        """
+        Reconstruct the list of profiles based on the profile file
+        :param ini_path: Tha path of the configuration file
+        :return:
+        """
+        current_profile = None
+
         fd = open(ini_path, 'r')
         lines = [line.strip() for line in fd]
         fd.close()
-        current_profile = None
+
         for line in lines:
             match = re.search("^\[Profile(\d+)\]$", line)
             if match is not None:
                 # if the object is not null, add it to the list
-                if current_profile is not None:
-                    self.present_in_profile_file[current_profile.path] = current_profile
+                self.__save_recovered_profile__(current_profile)
 
                 # extract the id and builds the object
                 current_id = match.group(1)
@@ -62,7 +75,14 @@ class ProfileSearcher:
                 current_default = int(match.group(1))
                 current_profile.isDefault = current_default == 1
 
-        # finished reading lines, check the last profile
+        return current_profile
+
+    def __save_recovered_profile__(self, current_profile):
+        """
+        Add a profile to the internal list of 'found' profiles
+        :param current_profile:
+        :return:
+        """
         if current_profile is not None:
             self.present_in_profile_file[current_profile.path] = current_profile
 
