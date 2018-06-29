@@ -1,7 +1,11 @@
+[![Build Status](https://travis-ci.org/rafspiny/firefox-profiles-recovery.svg?branch=development)](https://travis-ci.org/rafspiny/firefox-profiles-recovery)
+[![Coverage Status](https://coveralls.io/repos/github/rafspiny/firefox-profiles-recovery/badge.svg?branch=master)](https://coveralls.io/github/rafspiny/firefox-profiles-recovery?branch=master)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=corg.rafspiny.linux.firefox-profile-recover&metric=alert_status)](https://sonarcloud.io/dashboard?id=corg.rafspiny.linux.firefox-profile-recover)
+
 # firefox-profiles-recovery
 A script to easily recover Firefox profiles after a system problem.
 
-Simple output when runnig the code:
+Simple output when running the code:
 ```
 $ python main.py
 usage: main.py [-h] [--list LIST_CMD] [--recover-all RECOVER_ALL_CMD]
