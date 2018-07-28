@@ -5,11 +5,11 @@ class Profile:
 
     available_keys = ['name', 'isRelative', 'path', 'isDefault']
 
-    def __init__(self, profile_id=-1, name=None, isRelative=False, path=None, isDefault=False):
+    def __init__(self, profile_id=-1, name=None, is_relative=False, path=None, is_default=False):
         self.name = name
-        self.isRelative = isRelative
+        self.isRelative = is_relative
         self.path = path
-        self.isDefault = isDefault
+        self.isDefault = is_default
         self.id = int(profile_id)
         self.__validate_name__()
 
