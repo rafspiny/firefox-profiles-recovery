@@ -13,6 +13,7 @@ script:
     - sonar-scanner
 after_success:
     - coveralls
+    - codecov
 addons:
     sonarcloud:
         organization: "rafspiny-github" # the key of the org you chose at step #3
