@@ -148,7 +148,7 @@ Default=1
             generator.add_profile(profile)
 
     @data(
-        ('/profiles/profiles.ini', [{'profile_id':0}], [{'name':'profile', 'isRelative':True, 'isDefault':False, 'path':'profile.profile', 'profile_id':-1}], """
+        ('/profiles/profiles.ini', [{'profile_id':0}], [{'name':'profile', 'is_relative':True, 'is_default':False, 'path':'profile.profile', 'profile_id':-1}], """
 [General]
 StartWithLastProfile=1
 
